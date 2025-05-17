@@ -1,0 +1,9 @@
+// - Âge : ${formData.age}
+// - Profil : ${formData.profil}
+// - Pathologie : ${formData.pathologie}
+// - Thérapie précédente : ${formData.therapiePrecedente}
+// - Méthode d'hypnose : ${formData.methodeHypnose}
+// - Durée: ${formData.duree}
+// - Induction : ${formData.induction ? 'sans induction' : 'avec induction'}
+// - Ton : ${formData.ton}
+// - Objectif de la séance : ${formData.objectif}
