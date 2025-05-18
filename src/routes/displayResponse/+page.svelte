@@ -1,25 +1,24 @@
 <script>
 	import { aiResponseStore } from '$lib/aiStore';
-	import { marked } from 'marked';
 	import html2pdf from 'html2pdf.js';
 
-	// Auto-réactive : $aiResponseStore
-	let markdown = '';
+	let html = '';
 
-	$: markdown = $aiResponseStore || '';
+	// Réactif : met à jour `html` dès que `aiResponseStore` change
+	$: html = $aiResponseStore || '';
 
-	function downloadMarkdown() {
-		const blob = new Blob([markdown], { type: 'text/markdown' });
+	function downloadHTML() {
+		const blob = new Blob([html], { type: 'text/html' });
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement('a');
 		a.href = url;
-		a.download = 'reponse.md';
+		a.download = 'reponse.html';
 		a.click();
 		URL.revokeObjectURL(url);
 	}
 
 	function downloadPDF() {
-		const element = document.querySelector('.markdown-rendered');
+		const element = document.querySelector('.html-rendered');
 		if (element) {
 			html2pdf().from(element).save('reponse.pdf');
 		}
@@ -27,7 +26,7 @@
 
 	async function copyToClipboard() {
 		try {
-			await navigator.clipboard.writeText(markdown);
+			await navigator.clipboard.writeText(html);
 			alert('Texte copié dans le presse-papiers !');
 		} catch (err) {
 			alert('Échec de la copie.');
@@ -35,66 +34,78 @@
 	}
 </script>
 
-{#if markdown}
-	<div class="actions">
-		<button on:click={copyToClipboard}>📋 Copier</button>
-		<button on:click={downloadMarkdown}>⬇️ Markdown</button>
-		<button on:click={downloadPDF}>📄 PDF</button>
+
+<main>
+	{#if html}
+
+<div class="wrapper__buttons">
+	<button on:click={copyToClipboard}>Copier</button>
+	<button on:click={downloadPDF}>Télécharger PDF</button>
+</div>
+	{:else}
+		<p>Aucune réponse disponible.</p>
+	{/if}
+	<div class="html-rendered">
+		{@html html}
 	</div>
 
-	<div class="markdown-rendered">
-		{@html marked(markdown)}
-	</div>
-{:else}
-	<p>Aucune réponse disponible.</p>
-{/if}
+</main>
 
 <style>
-	.actions {
+	main{
+		background-color: var(--main-color);
 		display: flex;
-		gap: 1rem;
-		margin: 1rem 0;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		padding: 10px;
 	}
+	.wrapper__buttons {
+		display: flex;
+		justify-content: center;
+		gap:5px;
+		margin-top: 2rem;
+		
+	}
+
 
 	button {
 		padding: 0.5rem 1rem;
 		font-size: 1rem;
 		border: none;
 		border-radius: 0.5rem;
-		background-color: #2d72d9;
+		background-color: var(--elements);
+		font-size: 14px;;
 		color: white;
 		cursor: pointer;
 		transition: background 0.2s ease;
+		background-color: var(--cta);
 	}
 
 	button:hover {
 		background-color: #1c56ad;
 	}
 
-	.markdown-rendered {
-		background-color: #f8f8f8;
+	.html-rendered {
+		background-color: var(--elements);
 		padding: 1rem;
 		border-radius: 0.5rem;
 		max-width: 800px;
-		margin: auto;
-		overflow-x: auto;
+		margin: 3rem auto;
+		color: rgb(228, 228, 228);
+		padding: 20px;
+	}
+	:global(.html-rendered h2){
+		font-size: 1.4rem;
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+		color: #f1f2f3;
+	}
+	:global(.html-rendered p) {
+		margin-bottom: 1rem;
+		line-height: 35px;
 	}
 
-	/* Style markdown */
-	/* .markdown-rendered h1, .markdown-rendered h2 {
-		margin-top: 1.5rem;
-		color: #333;
-	}
-	.markdown-rendered pre {
-		background: #333;
-		color: #f8f8f8;
-		padding: 1rem;
-		border-radius: 0.5rem;
-		overflow-x: auto;
-	}
-	.markdown-rendered code {
-		background: #eee;
-		padding: 0.2rem 0.4rem;
-		border-radius: 0.3rem;
-	} */
+
 </style>

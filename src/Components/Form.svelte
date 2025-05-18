@@ -26,11 +26,10 @@
 	const ages = Array.from({ length: 96 }, (_, i) => i + 4);
 	let exempleResponse = `---
 
-# 🌿 Se libérer de la jalousie toxique : un voyage intérieur de guérison et de transformation
+🌿 Se libérer de la jalousie toxique : un voyage intérieur de guérison et de transformation
 
----
 
-## I. Le miroir brisé
+I. Le miroir brisé
 
 Il était une fois un être qui regardait un miroir… mais ce miroir était fendu. À travers ses fissures, il voyait son reflet déformé. Une image troublée, instable, morcelée. Et dans ce reflet, il avait du mal à se reconnaître. Le doute s’infiltrait, l’ombre s’épaississait. Et avec cette ombre, venait la jalousie. Cette jalousie toxique, insidieuse, qui glissait comme une brume froide entre les pensées.
 
@@ -38,9 +37,9 @@ Mais ce miroir brisé n’était pas la vérité. Il n’était qu’un objet, a
 
 Alors, doucement, avec une infinie tendresse, l’être s’est approché du miroir. Il n’a pas voulu le briser davantage. Non. Il a soufflé dessus. Il a caressé sa surface. Il a osé regarder au-delà des cassures. Et là, il a vu… une lumière intacte. Un éclat vivant. Un regard doux. Le début d’un pardon.
 
----
 
-## II. Le jardin des comparaisons
+
+ II. Le jardin des comparaisons
 
 La jalousie pousse dans un jardin particulier. Un jardin où l’on sème des comparaisons. Où chaque fleur regarde les autres et se demande : « Suis-je assez belle ? Suis-je aimée ? Suis-je unique ? » Et dans ce jardin, certaines plantes se fanent parce qu’elles oublient leur nature propre.
 
@@ -48,9 +47,9 @@ Mais un jour, une fleur décida de cesser de se comparer. Elle se tourna vers le
 
 Et alors, quelque chose changea dans le jardin. Les autres fleurs aussi se redressèrent. Chacune trouva sa place. Plus besoin de rivalité. Plus besoin d’envie. Juste une cohabitation douce, harmonieuse, fertile.
 
----
 
-## III. La forêt des blessures
+
+ III. La forêt des blessures
 
 Il y a dans chacun de nous une forêt ancienne. Une forêt pleine de souvenirs, de blessures anciennes, de douleurs non exprimées. La jalousie y trouve ses racines. Car souvent, elle naît d’un manque : manque d’amour, de reconnaissance, de sécurité.
 
@@ -58,9 +57,9 @@ Dans cette forêt, une silhouette avance. C’est toi. Tu portes une lanterne. T
 
 Et dans cette forêt purifiée, tu peux construire une maison intérieure. Solide. Paisible. Libre.
 
----
 
-## IV. L’élixir de confiance
+
+ IV. L’élixir de confiance
 
 La jalousie se nourrit de méfiance. De peur. De manque de sécurité intérieure. Mais il existe en toi un élixir oublié. Un nectar ancien : la confiance. Pas la confiance aveugle. Mais celle qui naît d’un enracinement profond, d’un amour lucide pour soi-même.
 
@@ -71,9 +70,9 @@ Imagine que tu tiens entre tes mains une fiole. Dans cette fiole, un liquide dor
 
 À chaque fois que tu bois une goutte de cet élixir imaginaire, quelque chose en toi s’apaise. Ton cœur se redresse. Tes pensées s’éclairent. Et tu peux regarder l’autre… non plus comme un rival, mais comme un être libre, qui ne menace en rien ta propre valeur.
 
----
 
-## V. Le théâtre intérieur
+
+ V. Le théâtre intérieur
 
 Dans ton esprit existe un théâtre. Et parfois, sur sa scène, des personnages se battent : la peur, le contrôle, le manque, la colère. Ils jouent des drames, des scènes de soupçon et de rivalité.
 
@@ -81,9 +80,9 @@ Mais dans la salle, il y a un spectateur plus grand. C’est toi, dans ta pleine
 
 Et quand la sérénité entre, les autres s’apaisent. Le décor change. La lumière devient chaude, ambrée. L’histoire devient plus belle. Tu ne joues plus une tragédie. Tu composes une symphonie d’acceptation.
 
----
 
-## VI. Le pont de la transformation
+
+ VI. Le pont de la transformation
 
 La jalousie te fait croire qu’il faut posséder, retenir, enfermer. Mais l’amour vrai, lui, ne retient pas. Il fait confiance. Il laisse respirer. Il choisit à chaque instant, sans contrainte.
 
@@ -91,9 +90,9 @@ Alors tu construis un pont. Un pont intérieur. Entre l’attachement et la libe
 
 Ce pont, tu le traverses à ton rythme. Tu regardes en arrière avec gratitude, mais tu choisis d’avancer. Tu avances vers un amour mature. Un amour apaisé. Un amour qui ne se nourrit plus de jalousie, mais de présence consciente.
 
----
 
-## VII. La guérison par le feu doux
+
+ VII. La guérison par le feu doux
 
 Il y a en toi une flamme. Un feu doux. Ce feu, c’est ton intégrité. C’est ta lumière. C’est ton authenticité. Il peut brûler les résidus de jalousie, sans violence. Il transmute. Il éclaire.
 
@@ -101,9 +100,9 @@ Assieds-toi près de ce feu symbolique. Regarde-le danser. Donne-lui les pensée
 
 Et dans cette chaleur nouvelle, tu sens que tu es capable d’aimer sans peur. De regarder l’autre vivre, libre, et de rester stable. Centré. Ouvert.
 
----
 
-## VIII. Le retour à soi
+
+ VIII. Le retour à soi
 
 Au bout de ce voyage, il y a un retour. Non pas à l’ancien toi, mais à un soi plus vaste. Plus fort. Plus doux. Tu n’es plus esclave de cette jalousie qui t’enfermait. Tu l’as rencontrée. Tu l’as comprise. Tu l’as transformée.
 
@@ -111,9 +110,9 @@ Et maintenant, tu peux te lever. Marcher. Respirer. Regarder avec lucidité et s
 
 Et chaque jour, tu peux revenir à ce jardin, à cette forêt, à ce feu. Tu es libre. Tu es en paix. Tu es entier.
 
----
 
-🌟 **Conclusion : Un amour plus vaste**
+
+Conclusion : Un amour plus vaste
 
 La jalousie n’était qu’un appel. Un appel vers toi-même. Vers ton besoin d’être vu, reconnu, aimé. Maintenant que tu l’as entendu, tu peux répondre à cet appel… autrement. Avec maturité, tendresse, grandeur.
 
@@ -121,7 +120,7 @@ Tu peux aimer sans peur. Tu peux t’aimer pleinement. Tu peux regarder la vie c
 
 Et dans cette paix nouvelle, une joie douce s’installe. Une force tranquille. Une lumière qui ne s’éteint plus.
 
----
+
 `;
 
 	async function sendToOpenAI() {
@@ -141,12 +140,19 @@ Et dans cette paix nouvelle, une joie douce s’installe. Une force tranquille. 
 		destiné à un patient âgé de ${formData.age} ans, souffrant de ${formData.pathologie}, 
 		ayant déjà suivi une thérapie de ce type: ${formData.therapiePrecedente}, et souhaitant résoudre son problème qui est le suivant : ${formData.objectif}.
 		Le ton doit être ${formData.ton}, et la durée approximative est de ${formData.duree} min. Inclure des métaphores et des suggestions très adaptées.
-        Voici un exemple de structure souhaitée (en Markdown) :
+        Voici un exemple de structure souhaitée pour le script de visulalisation :
 
 ${exempleResponse}
 
-Merci de respecter le style de l'exemple dans la génération du script.
- Merci de générer des retours à la ligne et un texte bien structuré, prêt pour une conversion en pdf ou word`;
+Merci de respecter le style de narration de l'exemple de génération du script. Le nombre de chapitres est libre, entre 5 et 10.
+Ne génère ni introduction ni conclusion, sauf si l’induction est demandée, alors rédige en introductino le protocole d’induction.
+Génère un titre pour le script dans une balise <h1>
+Le document doit être au format HTML strict :
+chaque titre de chapitre dans une balise <h2>
+chaque paragraphe dans une balise <p>
+insérer un <br> si nécessaire entre les paragraphes
+n'utilise jamais \n, pas de Markdown, pas de balise <pre>
+Le script de visualisation doit absolument tenir compte du profil du patient.`;
 
 		try {
 			const res = await fetch('/api', {
@@ -340,6 +346,7 @@ Merci de respecter le style de l'exemple dans la génération du script.
 		height: 100vh;
 		background-color: var(--main-color);
 		color: white;
+		padding: 10px;
 	}
 	.container__form {
 		display: flex;
@@ -386,7 +393,7 @@ Merci de respecter le style de l'exemple dans la génération du script.
 		align-items: center;
 		justify-content: center;
 		padding: 20px;
-		background-color: #007bff;
+		background-color: var(--cta);
 		color: white;
 		border: none;
 		border-radius: 5px;

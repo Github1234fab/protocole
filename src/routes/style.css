@@ -7,9 +7,11 @@
 
 body, html{
     font-family: 'Tahoma' sans-serif;
+    background-color: var(--main-color); ;
 }
 
 :root{
     --main-color: #121212;
     --elements: #303030;
+    --cta: #007bff;
 }
