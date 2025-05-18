@@ -139,13 +139,12 @@ Et dans cette paix nouvelle, une joie douce s’installe. Une force tranquille. 
 		const generatedPrompt = `Tu es un hypnothérapeute expert. Rédige un script hypnotique personnalisé ${formData.induction ? 'sans induction' : 'avec induction'} 
 		destiné à un patient âgé de ${formData.age} ans, souffrant de ${formData.pathologie}, 
 		ayant déjà suivi une thérapie de ce type: ${formData.therapiePrecedente}, et souhaitant résoudre son problème qui est le suivant : ${formData.objectif}.
-		Le ton doit être ${formData.ton}, et la durée approximative est de ${formData.duree} min. Inclure des métaphores et des suggestions très adaptées.
-        Voici un exemple de structure souhaitée pour le script de visulalisation :
+		Le ton doit être ${formData.ton}, et la durée approximative est de ${formData.duree} min. Tu dois Inclure des métaphores très adaptées.
+        // Voici un exemple de structure souhaitée pour le script de visulalisation : ${exempleResponse}
 
-${exempleResponse}
-
-Merci de respecter le style de narration de l'exemple de génération du script. Le nombre de chapitres est libre, entre 5 et 10.
-Ne génère ni introduction ni conclusion, sauf si l’induction est demandée, alors rédige en introductino le protocole d’induction.
+// Merci de respecter le style de narration de l'exemple de génération du script mais en gardant une liberté de conception. 
+Le nombre de chapitres est libre, entre 5 et 10.
+Si l’induction est demandée dans le prompt, alors rédige en introduction le protocole d’induction. Sinon ne pas en parler.
 Génère un titre pour le script dans une balise <h1>
 Le document doit être au format HTML strict :
 chaque titre de chapitre dans une balise <h2>
@@ -178,7 +177,10 @@ Le script de visualisation doit absolument tenir compte du profil du patient.`;
 			loading = false;
 		}
 	}
-
+	$: if (progress === 100 && !alreadySent) {
+	alreadySent = true;
+	sendToOpenAI();
+}
 </script>
 
 <!-- HTML-->
@@ -191,14 +193,17 @@ Le script de visualisation doit absolument tenir compte du profil du patient.`;
 			<div class="modal">
 				<p>Chargement : {Math.floor(progress)}%</p>
 				<progress max="100" value={progress}></progress>
-				<button class="display-response-AI" disabled={!readyToView} class:ready={readyToView} on:click={handleViewClick}>
+			
+				<!-- <button class="display-response-AI" disabled={!readyToView} class:ready={readyToView} on:click={handleViewClick}>
 					{readyToView ? 'Voir' : 'Chargement...'}
-				</button>
+				</button> -->
 			</div>
 		</div>
 	{/if}
 
 	<div class="container__form">
+
+		<h1>Générateur de script hypnotique</h1>
 		<div class="wrapper__selections">
 			<select bind:value={formData.age}>
 				<option value="" disabled selected>Choisissez un âge</option>
@@ -351,6 +356,8 @@ Le script de visualisation doit absolument tenir compte du profil du patient.`;
 	.container__form {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
 		gap: 1rem;
 		width: 60%;
 	}
@@ -404,18 +411,6 @@ Le script de visualisation doit absolument tenir compte du profil du patient.`;
 		background-color: #ccc;
 		cursor: not-allowed;
 	}
-	/* .container__form p {
-		background-color: #f8f9fa;
-		padding: 10px;
-		border-radius: 5px;
-		line-height: 35px;
-	}
-	.container__form p {
-		color: rgb(55, 26, 200);
-		text-align: center;
-		width: 50%;
-		margin: 0 auto;
-	} */
 
 	.container__form textarea {
 		height: 200px;
@@ -457,16 +452,28 @@ Le script de visualisation doit absolument tenir compte du profil du patient.`;
 		align-items: center;
 		z-index: 999;
 	}
+	.overlay p{
+		color: white;
+		font-size: 0.9rem;
+		margin-bottom: 1rem;
+	}
+progress{
+		width: 100%;
+		height: 20px;
+		border-radius: 10px;
+		background-color: var(--elements);
+		color: var(--cta);
+	}
 
 	.modal {
-		background: white;
+		background:var(--elements);
 		padding: 2rem;
 		border-radius: 1rem;
 		text-align: center;
 		box-shadow: 0 0 15px rgba(0,0,0,0.3);
 	}
 
-	.display-response-AI {
+	/* .display-response-AI {
 		margin-top: 1rem;
 		padding: 0.5rem 1rem;
 		border: none;
@@ -480,7 +487,7 @@ Le script de visualisation doit absolument tenir compte du profil du patient.`;
 	.display-response-AI.ready {
 		background-color: green;
 		cursor: pointer;
-	}
+	} */
 
 	@media screen and (max-width: 768px) {
 		.container__form {

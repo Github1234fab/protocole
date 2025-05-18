@@ -1,5 +1,6 @@
 <script>
 	import { aiResponseStore } from '$lib/aiStore';
+	import { goto } from '$app/navigation';
 	import html2pdf from 'html2pdf.js';
 
 	let html = '';
@@ -32,6 +33,9 @@
 			alert('Échec de la copie.');
 		}
 	}
+	function GoBack() {
+		goto('/');
+	}
 </script>
 
 
@@ -41,6 +45,7 @@
 <div class="wrapper__buttons">
 	<button on:click={copyToClipboard}>Copier</button>
 	<button on:click={downloadPDF}>Télécharger PDF</button>
+	<button on:click={GoBack}>Revenir au menu</button>
 </div>
 	{:else}
 		<p>Aucune réponse disponible.</p>
