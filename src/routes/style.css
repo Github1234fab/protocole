@@ -1,0 +1,15 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'arial', sans-serif;
+}
+
+body, html{
+    font-family: 'Tahoma' sans-serif;
+}
+
+:root{
+    --main-color: #121212;
+    --elements: #303030;
+}

@@ -1,4 +1,9 @@
 <script>
+	import { maybeCoerceInteger } from 'openai/core.mjs';
+	import { aiResponseStore } from '$lib/aiStore';
+	import { goto } from '$app/navigation';
+
+
 	let formData = {
 		age: '',
 		profil: '',
@@ -11,6 +16,9 @@
 		objectif: ''
 	};
 
+	let progress = 0;
+	let showOverlay = false;
+	let readyToView = false;
 	let generatedPrompt = '';
 	let aiResponse = '';
 	let loading = false;
@@ -116,26 +124,29 @@ Et dans cette paix nouvelle, une joie douce s’installe. Une force tranquille. 
 ---
 `;
 
-	function generatePrompt() {
-		generatedPrompt = `Tu es un hypnothérapeute expert. Rédige un script hypnotique personnalisé ${formData.induction ? 'sans induction' : 'avec induction'} destiné à un patient âgé de ${formData.age} ans, souffrant de ${formData.pathologie}, ayant déjà suivi une thérapie de ce type: ${formData.therapiePrecedente}, et souhaitant résoudre son problème qui est le suivant : ${formData.objectif}. Le ton doit être ${formData.ton}, et la durée approximative est de ${formData.duree} min. Inclure des métaphores et des suggestions très adaptées.
-		Voici un exemple de structure souhaitée (en Markdown) :
-
-${exempleResponse}
-
-Merci de respecter le style de l'exemple dans la génération du script. Merci de générer des retours à la ligne et un texte bien structuré, prêt pour une conversion en pdf ou word`;
-
-		aiResponse = '';
-		error = '';
-	}
-
 	async function sendToOpenAI() {
-		if (!generatedPrompt) {
-			error = "Génère d'abord le prompt !";
-			return;
-		}
+		showOverlay = true;
+		loading = true;
+		progress = 0;
+		readyToView = false;
 		loading = true;
 		error = '';
 		aiResponse = '';
+		const interval = setInterval(() => {
+			if (progress < 95) progress += Math.random() * 5;
+		}, 150);
+
+		// Génération directe du prompt
+		const generatedPrompt = `Tu es un hypnothérapeute expert. Rédige un script hypnotique personnalisé ${formData.induction ? 'sans induction' : 'avec induction'} 
+		destiné à un patient âgé de ${formData.age} ans, souffrant de ${formData.pathologie}, 
+		ayant déjà suivi une thérapie de ce type: ${formData.therapiePrecedente}, et souhaitant résoudre son problème qui est le suivant : ${formData.objectif}.
+		Le ton doit être ${formData.ton}, et la durée approximative est de ${formData.duree} min. Inclure des métaphores et des suggestions très adaptées.
+        Voici un exemple de structure souhaitée (en Markdown) :
+
+${exempleResponse}
+
+Merci de respecter le style de l'exemple dans la génération du script.
+ Merci de générer des retours à la ligne et un texte bien structuré, prêt pour une conversion en pdf ou word`;
 
 		try {
 			const res = await fetch('/api', {
@@ -148,6 +159,10 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 
 			if (res.ok) {
 				aiResponse = data.reply;
+				progress = 100;
+				readyToView = true;
+				aiResponseStore.set(aiResponse);
+				goto('/displayResponse');
 			} else {
 				error = data.error || 'Erreur inconnue';
 			}
@@ -157,6 +172,7 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 			loading = false;
 		}
 	}
+
 </script>
 
 <!-- HTML-->
@@ -164,6 +180,18 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 <!-- <h2>Création de protocole d'hypnose</h2> -->
 
 <main>
+	{#if showOverlay}
+		<div class="overlay">
+			<div class="modal">
+				<p>Chargement : {Math.floor(progress)}%</p>
+				<progress max="100" value={progress}></progress>
+				<button class="display-response-AI" disabled={!readyToView} class:ready={readyToView} on:click={handleViewClick}>
+					{readyToView ? 'Voir' : 'Chargement...'}
+				</button>
+			</div>
+		</div>
+	{/if}
+
 	<div class="container__form">
 		<div class="wrapper__selections">
 			<select bind:value={formData.age}>
@@ -177,7 +205,6 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 		<!-- ============= -->
 
 		<div class="wrapper__selections">
-			<label for="profil">Profil :</label>
 			<select id="profil" bind:value={formData.profil}>
 				<option value="" disabled selected>Choisir le profil</option>
 				<option value="anxieux">Anxieux</option>
@@ -191,9 +218,8 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 		<!-- ============= -->
 
 		<div class="wrapper__selections">
-			<label for="pathologie">Pathologie :</label>
 			<select id="pathologie" bind:value={formData.pathologie}>
-				<option value="" disabled selected>Choisir le type de pathologie</option>
+				<option value="" disabled selected>Pathologie</option>
 
 				<option value="anxiete_generalisee">Trouble d'anxiété généralisée</option>
 				<option value="trouble_bipolaire">Trouble bipolaire</option>
@@ -221,9 +247,8 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 		<!-- ============= -->
 
 		<div class="wrapper__selections">
-			<label for="therapiePrecedente">Thérapie précédente :</label>
 			<select id="therapiePrecedente" bind:value={formData.therapiePrecedente}>
-				<option value="" disabled selected>Choisir la thérapie précédente</option>
+				<option value="" disabled selected>Thérapie précédente</option>
 				<option value="Aucune thérapie antérieure">Aucune thérapie antérieure</option>
 				<option value="Thérapie cognitive-comportementale (TCC)">Thérapie cognitive-comportementale (TCC)</option>
 				<option value="Thérapie analytique / psychanalyse">Thérapie analytique / psychanalyse</option>
@@ -242,9 +267,8 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 		<!-- ============= -->
 
 		<div class="wrapper__selections">
-			<label for="methodeHypnose">Méthode d'hypnose :</label>
 			<select id="methodeHypnose" bind:value={formData.methodeHypnose}>
-				<option value="" disabled selected>Choisir la méthode</option>
+				<option value="" disabled selected>Méthode</option>
 				<option value="Gestalt-thérapie">Gestalt-thérapie</option>
 				<option value="Hypnose ericksonienne">Hypnose ericksonienne</option>
 				<option value="Analyse transactionnelle">Analyse transactionnelle</option>
@@ -268,8 +292,7 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 		<!-- ============= -->
 
 		<div class="wrapper__selections">
-			<label for="duration">Ton adapté</label>
-			<select name="duration" id="duration" bind:value={formData.ton}>
+			<select name="ton" id="ton" bind:value={formData.ton}>
 				<option value="" disabled selected>Choisir le ton</option>
 				<option value="Doux">Doux</option>
 				<option value="Apaisant">Apaisant</option>
@@ -281,35 +304,24 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 
 		<!-- ============= -->
 
-		<div class="wrapper__selections">
-			<label>
-				<input type="radio" name="induction" value="Avec induction" bind:group={formData.induction} />
-				Avec induction
-			</label>
-			<label>
-				<input type="radio" name="induction" value="Sans induction" bind:group={formData.induction} />
-				Sans induction
-			</label>
+		<div class="wrapper__inductions">
+			<div class="induction-label">Induction</div>
+			<input type="radio" name="induction" value="Avec induction" bind:group={formData.induction} />
+
+			<div class="induction-label">Sans induction</div>
+			<input type="radio" name="induction" value="Sans induction" bind:group={formData.induction} />
 		</div>
 
 		<!-- ============= -->
 
-		<div class="wrapper__selections">
-			<textarea name="Objectif" bind:value={formData.objectif} placeholder="Quelle est la raison du mal être ?"></textarea>
+		<div class="objectif">
+			<label for="objectif">Description brève concernant la venue du patient</label>
+			<textarea name="Objectif" bind:value={formData.objectif}></textarea>
 		</div>
 
 		<!-- ============= -->
-		<button on:click={generatePrompt}>Générer le protocole</button>
-		<button on:click={sendToOpenAI} disabled={loading}>{loading ? 'En cours...' : 'Envoyer à OpenAI'}</button>
 
-		{#if generatedPrompt}
-			<pre>Prompt généré :
-{generatedPrompt}</pre>
-		{/if}
-
-		{#if error}
-			<p style="color: red;">{error}</p>
-		{/if}
+		<button on:click={sendToOpenAI} disabled={loading}>{loading ? 'En cours...' : 'Générer le script'}</button>
 
 		{#if aiResponse}
 			<p>
@@ -326,53 +338,66 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 		align-items: center;
 		justify-content: center;
 		height: 100vh;
-		background-color: #121212;
+		background-color: var(--main-color);
 		color: white;
 	}
 	.container__form {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		grid-template-rows: 50px 50px 50px 50px;
-		gap: 10px;
-		height: 100%;
-		padding: 20px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		width: 60%;
 	}
 	.wrapper__selections {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
+		flex-wrap: wrap;
+		border-radius: 6px;
+		width: 100%;
+	}
+	.wrapper__inductions {
+		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 100%;
 		gap: 10px;
+		border-radius: 6px;
+		background-color: var(--elements);
+		padding: 20px;
+		max-height: 20px;
+		width: 100%;
 	}
-	.container__form label {
-		font-weight: bold;
-		display: none;
+	.induction-label {
+		display: flex;
+		align-items: center;
+		font-size: 13px;
+		background-color: var(--elements);
 	}
-	.container__form input,
 	.container__form select {
-		padding: 5px;
+		padding: 15px;
 		border: none;
 		border-radius: 10px;
-		padding: 10px;
 		box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
-		width: 300px;
-		background-color: #303030;
+		background-color: var(--elements);
 		color: white;
+		width: 100%;
+		max-height: 60px;
 	}
 	.container__form button {
-		padding: 0px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 20px;
 		background-color: #007bff;
 		color: white;
 		border: none;
 		border-radius: 5px;
 		cursor: pointer;
+		max-height: 30px;
 	}
 	.container__form button:disabled {
 		background-color: #ccc;
 		cursor: not-allowed;
 	}
-	.container__form p {
+	/* .container__form p {
 		background-color: #f8f9fa;
 		padding: 10px;
 		border-radius: 5px;
@@ -380,26 +405,85 @@ Merci de respecter le style de l'exemple dans la génération du script. Merci d
 	}
 	.container__form p {
 		color: rgb(55, 26, 200);
-		font-family: 'Tahoma' sans-serif;
 		text-align: center;
 		width: 50%;
 		margin: 0 auto;
-	}
-	.container__form label {
-		font-family: 'Tahoma' sans-serif;
-	}
+	} */
+
 	.container__form textarea {
-		width: 90%;
-		height: 100px;
+		height: 200px;
+		background-color: rgb(41, 40, 40);
+		color: white;
+		font-weight: 400;
+		border-radius: 10px;
+		width: 100%;
+		padding: 20px;
+	}
+	.objectif {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+		align-items: flex-start;
+		justify-content: center;
+		width: 100%;
+		border-radius: 10px;
+		padding: 20px;
+		color: white;
+		border: 1px solid grey;
+		background-color: var(--elements);
+	}
+	.objectif label {
+		font-size: 13px;
+	}
+
+	/* ========================== */
+	.overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(6px);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 999;
+	}
+
+	.modal {
+		background: white;
+		padding: 2rem;
+		border-radius: 1rem;
+		text-align: center;
+		box-shadow: 0 0 15px rgba(0,0,0,0.3);
+	}
+
+	.display-response-AI {
+		margin-top: 1rem;
+		padding: 0.5rem 1rem;
+		border: none;
+		border-radius: 0.5rem;
+		background-color: gray;
+		color: white;
+		cursor: not-allowed;
+		transition: background-color 0.3s;
+	}
+
+	.display-response-AI.ready {
+		background-color: green;
+		cursor: pointer;
 	}
 
 	@media screen and (max-width: 768px) {
 		.container__form {
-			grid-template-columns: 1fr;
-		}
-		.container__form button {
+			flex-direction: column;
+			align-items: center;
 			width: 100%;
 		}
+
+		.container__form select,
+		.container__form button,
 		.container__form textarea {
 			width: 100%;
 		}
