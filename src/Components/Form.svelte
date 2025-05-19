@@ -348,7 +348,7 @@ Le script de visualisation doit absolument tenir compte du profil du patient.`;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		height: 100vh;
+		height: 100%;
 		background-color: var(--main-color);
 		color: white;
 		padding: 10px;
