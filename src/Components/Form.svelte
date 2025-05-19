@@ -1,5 +1,5 @@
 <script>
-	import { maybeCoerceInteger } from 'openai/core.mjs';
+
 	import { aiResponseStore } from '$lib/aiStore';
 	import { goto } from '$app/navigation';
 
@@ -499,7 +499,7 @@ progress{
 		.container__form select,
 		.container__form button,
 		.container__form textarea {
-			width: 100%;
+			width: 99%;
 		}
 	}
 </style>
